@@ -40,6 +40,7 @@ var enctype string
 
 func init() {
 	CmdVersion.Flag.StringVar(&enctype, "t", "", "Set the output type. eg: json")
+	cmds.Regcmd(CmdVersion)
 }
 
 func runVersion(cmd *cmds.Command, args []string) {

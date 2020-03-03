@@ -5,14 +5,10 @@ import (
 	"os"
 
 	"github.com/zxysilent/fish/internal/cmds"
-	"github.com/zxysilent/fish/internal/run"
-	"github.com/zxysilent/fish/internal/version"
+	_ "github.com/zxysilent/fish/internal/run"
+	_ "github.com/zxysilent/fish/internal/version"
 )
 
-func init() {
-	// 注册所有支持的命令
-	cmds.Fishs = []*cmds.Command{version.CmdVersion, run.CmdRun}
-}
 func main() {
 	flag.Usage = cmds.Usage
 	flag.Parse()

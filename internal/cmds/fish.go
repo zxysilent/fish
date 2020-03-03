@@ -13,6 +13,11 @@ var (
 	fishTmpls *template.Template // 模板集合
 )
 
+// Regcmd 注册命令
+func Regcmd(cmd *Command) {
+	Fishs = append(Fishs, cmd)
+}
+
 //帮助模板
 var usageTmpl = `Fish is a tool for managing your go application.
 

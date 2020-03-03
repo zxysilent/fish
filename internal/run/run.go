@@ -50,6 +50,7 @@ func init() {
 	CmdRun.Flag.StringVar(&buildname, "name", "", "Set the app name.")
 	CmdRun.Flag.BoolVar(&watchall, "all", false, "Enable watch all files. eg: .html")
 	always = make(chan struct{})
+	cmds.Regcmd(CmdRun)
 }
 
 // runRun
