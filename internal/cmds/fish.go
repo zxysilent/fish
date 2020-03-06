@@ -18,6 +18,8 @@ func Regcmd(cmd *Command) {
 	Fishs = append(Fishs, cmd)
 }
 
+var cmdTmpl = `Use {{printf "fish help %s" .Name | bold}} for more information.{{endline}}`
+
 //帮助模板
 var usageTmpl = `Fish is a tool for managing your go application.
 
@@ -54,9 +56,11 @@ func init() {
 		"head":     colors.MagentaBold,
 	}
 	fishTmpls = template.New("fish").Funcs(funcs)
-	fishTmpls.New("usage").Parse(usageTmpl)
+	fishTmpls.New("cmd").Parse(cmdTmpl)
 	fishTmpls.New("help").Parse(helpTmpl)
+	fishTmpls.New("usage").Parse(usageTmpl)
 	fishTmpls.New("error").Parse(errorTmpl)
+
 }
 
 // 帮助信息

@@ -30,7 +30,6 @@ type Command struct {
 }
 
 var AvailableCommands = []*Command{}
-var cmdUsage = `Use {{printf "fish help %s" .Name | bold}} for more information.{{endline}}`
 
 // Name 名称
 func (cmd *Command) Name() string {
@@ -44,7 +43,7 @@ func (cmd *Command) Name() string {
 
 // Usage 帮助信息
 func (cmd *Command) Usage() {
-	Tips(cmdUsage, cmd)
+	Tips("cmd", cmd)
 	os.Exit(0)
 }
 
