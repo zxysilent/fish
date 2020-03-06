@@ -85,7 +85,7 @@ func Help(args []string) {
 			return
 		}
 	}
-	Tips("error", "Unknown help command")
+	Tips("error", "Unknown help comman : "+arg)
 }
 
 // 提示输出

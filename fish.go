@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/zxysilent/fish/internal/cmds"
+	_ "github.com/zxysilent/fish/internal/gen"
 	_ "github.com/zxysilent/fish/internal/run"
 	_ "github.com/zxysilent/fish/internal/version"
 )
