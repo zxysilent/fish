@@ -151,7 +151,7 @@ var controlTmpl = `
 // @Success 200 {object} utils.Reply "成功数据"
 // @Router /api/{{.Path}}/get/{id} [get]
 func {{.Name}}Get(ctx echo.Context) error {
-	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return ctx.JSON(utils.ErrIpt("数据输入错误", err.Error()))
 	}
@@ -184,7 +184,7 @@ func {{.Name}}All(ctx echo.Context) error {
 // @Success 200 {object} utils.Reply "成功数据"
 // @Router /api/{{.Path}}/page/{cid} [get]
 func {{.Name}}Page(ctx echo.Context) error {
-	// cid, err := strconv.ParseInt(ctx.Param("cid"), 10, 64)
+	// cid, err := strconv.Atoi(ctx.Param("cid"))
 	// if err != nil {
 	//      ctx.JSON(utils.ErrIpt("数据输入错误", err.Error()))
 	//      return
@@ -261,7 +261,7 @@ func {{.Name}}Edit(ctx echo.Context) error {
 // @Success 200 {object} utils.Reply "成功数据"
 // @Router /adm/{{.Path}}/drop/{id} [get]
 func {{.Name}}Drop(ctx echo.Context) error {
-	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return ctx.JSON(utils.ErrIpt("数据输入错误", err.Error()))
 	}
