@@ -147,7 +147,7 @@ var controlTmpl = `
 // {{.Name}}Get doc
 // @Tags {{.Path}}
 // @Summary 通过id获取单条{{.Notes}}信息
-// @Param id path int64 true "pk id" default(1)
+// @Param id path int true "pk id" default(1)
 // @Success 200 {object} utils.Reply "成功数据"
 // @Router /api/{{.Path}}/get/{id} [get]
 func {{.Name}}Get(ctx echo.Context) error {
@@ -178,7 +178,7 @@ func {{.Name}}All(ctx echo.Context) error {
 // {{.Name}}Page doc
 // @Tags {{.Path}}
 // @Summary 获取{{.Notes}}分页信息
-// @Param cid path int64 true "分类id" default(1)
+// @Param cid path int true "分类id" default(1)
 // @Param pi query int true "分页数" default(1)
 // @Param ps query int true "每页条数[5,20]" default(5)
 // @Success 200 {object} utils.Reply "成功数据"
@@ -214,7 +214,7 @@ func {{.Name}}Page(ctx echo.Context) error {
 // {{.Name}}Add doc
 // @Tags {{.Path}}
 // @Summary 添加{{.Notes}}信息
-// @Param token query string true "jwt" default(jwt-token)
+// @Param token query string true "hmt" default(token)
 // @Param body body model.{{.Name}} true "Req"
 // @Success 200 {object} utils.Reply "成功数据"
 // @Router /adm/{{.Path}}/add [post]
@@ -235,7 +235,7 @@ func {{.Name}}Add(ctx echo.Context) error {
 // {{.Name}}Edit doc
 // @Tags {{.Path}}
 // @Summary 修改{{.Notes}}信息
-// @Param token query string true "jwt" default(jwt-token)
+// @Param token query string true "hmt" default(token)
 // @Param body body model.{{.Name}} true "Req"
 // @Success 200 {object} utils.Reply "成功数据"
 // @Router /adm/{{.Path}}/edit [post]
@@ -256,8 +256,8 @@ func {{.Name}}Edit(ctx echo.Context) error {
 // {{.Name}}Drop doc
 // @Tags {{.Path}}
 // @Summary 通过id删除单条{{.Notes}}信息
-// @Param id path int64 true "pk id" default(1)
-// @Param token query string true "jwt" default(jwt-token)
+// @Param id path int true "pk id" default(1)
+// @Param token query string true "hmt" default(token)
 // @Success 200 {object} utils.Reply "成功数据"
 // @Router /adm/{{.Path}}/drop/{id} [get]
 func {{.Name}}Drop(ctx echo.Context) error {
