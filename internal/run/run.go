@@ -30,7 +30,7 @@ var (
 	runname    string                   // 运行名称😝
 	watchall   bool                     // 监听所有包括静态文件✔
 	always     chan struct{}            // 保持一直运行😋
-	cmd        *exec.Cmd                //命令
+	cmd        *exec.Cmd                // 命令
 	locker     sync.Mutex               // 锁🔒
 	modTimes   = make(map[string]int64) // 修改时间⏰
 	aimExts    = []string{".go"}        // 监听目标后缀
