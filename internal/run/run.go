@@ -37,10 +37,10 @@ var (
 	staticExts = []string{".html"}      // 静态资源后缀➰
 	// 临时文件🚫
 	ignoreRegexps = []*regexp.Regexp{
-		regexp.MustCompile(`(\w+).go~`),
-		regexp.MustCompile(`(\w+).tmp`),
-		regexp.MustCompile(`.#(\w+).go`),
-		regexp.MustCompile(`.(\w+).go.swp`),
+		regexp.MustCompile(`(\w+).go~$`),
+		regexp.MustCompile(`(\w+).tmp$`),
+		regexp.MustCompile(`.#(\w+).go$`),
+		regexp.MustCompile(`.(\w+).go.swp$`),
 	}
 	// 一定要排除的目录
 	excludes = []string{"docs", "node_modules", "dist", "vendor", "upload"}
@@ -262,7 +262,6 @@ func isIgnoreFile(name string) bool {
 		if re.MatchString(name) {
 			return true
 		}
-		continue
 	}
 	return false
 }
