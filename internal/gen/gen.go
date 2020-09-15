@@ -86,7 +86,7 @@ func {{.Name}}Count() int {
 	sess := Db.NewSession()
 	defer sess.Close()
 	count, _ := sess.Count(mod)
-	return count
+	return int(count)
 }
 
 // {{.Name}}Add 添加{{.Notes}}信息
@@ -186,8 +186,7 @@ func {{.Name}}All(ctx echo.Context) error {
 func {{.Name}}Page(ctx echo.Context) error {
 	// cid, err := strconv.Atoi(ctx.Param("cid"))
 	// if err != nil {
-	//      ctx.JSON(utils.ErrIpt("数据输入错误", err.Error()))
-	//      return
+	//  return ctx.JSON(utils.ErrIpt("数据输入错误", err.Error()))
 	// }
 	ipt := &model.Page{}
 	err := ctx.Bind(ipt)
@@ -271,5 +270,4 @@ func {{.Name}}Drop(ctx echo.Context) error {
 	}
 	return ctx.JSON(utils.Succ("succ"))
 }
-
 `
