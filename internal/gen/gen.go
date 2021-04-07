@@ -210,7 +210,7 @@ func {{.Name}}Page(ctx echo.Context) error {
 // {{.Name}}Add doc
 // @Tags {{.Path}}
 // @Summary 添加{{.Notes}}信息
-// @Param token query string true "hmt" default(token)
+// @Param token query string true "token"
 // @Router /adm/{{.Path}}/add [post]
 func {{.Name}}Add(ctx echo.Context) error {
 	ipt := &model.{{.Name}}{}
@@ -218,7 +218,7 @@ func {{.Name}}Add(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(utils.ErrIpt("输入有误", err.Error()))
 	}
-	ipt.Utime = time.Now()
+	ipt.Ctime = time.Now()
 	err = model.{{.Name}}Add(ipt)
 	if err != nil {
 		return ctx.JSON(utils.Fail("添加失败", err.Error()))
@@ -229,7 +229,7 @@ func {{.Name}}Add(ctx echo.Context) error {
 // {{.Name}}Edit doc
 // @Tags {{.Path}}
 // @Summary 修改{{.Notes}}信息
-// @Param token query string true "hmt" default(token)
+// @Param token query string true "token"
 // @Router /adm/{{.Path}}/edit [post]
 func {{.Name}}Edit(ctx echo.Context) error {
 	ipt := &model.{{.Name}}{}
@@ -237,7 +237,7 @@ func {{.Name}}Edit(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(utils.ErrIpt("输入有误", err.Error()))
 	}
-	ipt.Utime = time.Now()
+	ipt.Ctime = time.Now()
 	err = model.{{.Name}}Edit(ipt)
 	if err != nil {
 		return ctx.JSON(utils.Fail("修改失败", err.Error()))
@@ -249,7 +249,7 @@ func {{.Name}}Edit(ctx echo.Context) error {
 // @Tags {{.Path}}
 // @Summary 通过id删除单条{{.Notes}}信息
 // @Param id path int true "pk id" default(1)
-// @Param token query string true "hmt" default(token)
+// @Param token query string true "token"
 // @Router /adm/{{.Path}}/drop/{id} [get]
 func {{.Name}}Drop(ctx echo.Context) error {
 	id, err := strconv.Atoi(ctx.Param("id"))
