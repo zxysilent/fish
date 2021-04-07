@@ -131,18 +131,15 @@ func {{.Name}}Edit(mod *{{.Name}}, cols ...string) error {
 	return nil
 }
 
-// {{.Name}}Ids 返回{{.Notes}}信息-ids
+// {{.Name}}Ids 通过id集合返回{{.Notes}}信息
 func {{.Name}}Ids(ids []int) map[int]*{{.Name}} {
 	mods := make([]{{.Name}}, 0, len(ids))
 	Db.In("id", ids).Find(&mods)
-	if len(mods) > 0 {
-		mapMods := make(map[int]*{{.Name}}, len(mods))
-		for idx := range mods {
-			mapMods[mods[idx].Id] = &mods[idx]
-		}
-		return mapMods
+	mapSet := make(map[int]*{{.Name}}, len(mods))
+	for idx := range mods {
+		mapSet[mods[idx].Id] = &mods[idx]
 	}
-	return nil
+	return mapSet
 }
 
 // {{.Name}}Drop 删除单条{{.Notes}}信息
