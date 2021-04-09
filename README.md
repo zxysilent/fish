@@ -41,15 +41,15 @@ $ fish version
    ____  _         __
   / __/ (_) ___   / /
  / _/  / / (_-<  / _ \
-/_/   /_/ /___/ /_//_/ v0.3.0
+/_/   /_/ /___/ /_//_/ v0.3.3
 
-├── Go      : go1.14
+├── Go      : go1.16.3
 ├── GOOS    : windows
 ├── GOARCH  : amd64
-├── NumCPU  : 4
+├── NumCPU  : 8
 ├── GOPATH  : D:\App\Go
 ├── GOROOT  : D:\Program Files\Go
-└── Date    : 2020-02-27 15:15:52
+└── Date    : 2021-04-09 13:39:00
 ```
 
 
