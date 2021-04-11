@@ -37,7 +37,7 @@ func {{.Name}}All(ctx echo.Context) error {
 // @Param cid path int true "分类id" default(1)
 // @Param pi query int true "分页数" default(1)
 // @Param ps query int true "每页条数[5,30]" default(5)
-/ @Success 200 {object} model.Reply{data=[]model.{{.Name}}} "成功数据"
+// @Success 200 {object} model.Reply{data=[]model.{{.Name}}} "成功数据"
 // @Router /api/{{.Path}}/page [get]
 func {{.Name}}Page(ctx echo.Context) error {
 	// cid, err := strconv.Atoi(ctx.Param("cid"))
