@@ -13,7 +13,7 @@ import (
 	"github.com/zxysilent/fish/logger/colors"
 )
 
-const version = "0.3.1"
+const version = "0.3.3"
 const versionTmpl string = `%s%s
    ____  _         __ 
   / __/ (_) ___   / / 

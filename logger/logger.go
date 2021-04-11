@@ -23,10 +23,10 @@ const (
 )
 
 var (
-	instNo   uint64                 //序列😊
-	instance *fishLogger            //实例🍿
-	maxLevel = levelNull            //所有都显示👁‍🗨
-	Flog     = NewLogger(os.Stdout) //默认日志👍
+	instNo   uint64                 // 序列😊
+	instance *fishLogger            // 实例🍿
+	maxLevel = levelNull            // 所有都显示👁‍🗨
+	Flog     = NewLogger(os.Stdout) // 默认日志👍
 )
 
 // fishLogger 🐟
