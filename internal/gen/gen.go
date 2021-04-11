@@ -19,6 +19,9 @@ var modelTmpl string
 //go:embed tmpl/control.tpl
 var controlTmpl string
 
+//go:embed tmpl/router.tpl
+var routerTmpl string
+
 var CmdGen = &cmds.Command{
 	UsageLine: "gen [-t=m/c] [-n=name] [-r=notes] [-o=std/file]",
 	Short:     "generate code",
@@ -37,6 +40,7 @@ func init() {
 	CmdGen.Flag.StringVar(&notes, "r", "示例", "注释信息")
 	genTmpls = template.New("gen")
 	genTmpls.New("model").Parse(modelTmpl)
+	genTmpls.New("router").Parse(routerTmpl)
 	genTmpls.New("control").Parse(controlTmpl)
 	cmds.Regcmd(CmdGen)
 }
@@ -48,13 +52,21 @@ func runGen(cmd *cmds.Command, args []string) {
 	}
 	fileName := strings.ToLower(name) + ".go"
 	os.MkdirAll("gens/model/", 0666)
+	os.MkdirAll("gens/router/", 0666)
 	os.MkdirAll("gens/control/", 0666)
 	// 渲染model
 	buf := &bytes.Buffer{}
 	genTmpls.ExecuteTemplate(buf, "model", mod)
 	ioutil.WriteFile("gens/model/"+fileName, buf.Bytes(), 0666)
+
+	// 渲染 router
+	buf.Reset()
+	genTmpls.ExecuteTemplate(buf, "router", mod)
+	ioutil.WriteFile("gens/router/"+fileName, buf.Bytes(), 0666)
+
 	// 渲染 control
 	buf.Reset()
 	genTmpls.ExecuteTemplate(buf, "control", mod)
 	ioutil.WriteFile("gens/control/"+fileName, buf.Bytes(), 0666)
+
 }
