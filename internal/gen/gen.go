@@ -28,17 +28,13 @@ Generate custom code echo/xorm.`,
 }
 var genTmpls *template.Template // 模板集合
 var (
-	class string
-	name  string
-	notes string
-	out   string
+	name  string //名称
+	notes string //注释
 )
 
 func init() {
-	CmdGen.Flag.StringVar(&class, "t", "m", "code type c=control,m=model")
 	CmdGen.Flag.StringVar(&name, "n", "Demo", "main name")
 	CmdGen.Flag.StringVar(&notes, "r", "示例", "注释信息")
-	CmdGen.Flag.StringVar(&out, "o", "std", "输出路径 std/file")
 	genTmpls = template.New("gen")
 	genTmpls.New("model").Parse(modelTmpl)
 	genTmpls.New("control").Parse(controlTmpl)
@@ -50,28 +46,15 @@ func runGen(cmd *cmds.Command, args []string) {
 		"Notes": notes,
 		"Path":  strings.ToLower(name),
 	}
-	switch class {
-	case "c":
-		renderControl(mod)
-	case "m":
-		renderModel(mod)
-	}
-}
-func renderControl(data interface{}) {
-	if out == "std" {
-		genTmpls.ExecuteTemplate(os.Stdout, "control", data)
-	} else {
-		buf := &bytes.Buffer{}
-		genTmpls.ExecuteTemplate(buf, "control", data)
-		ioutil.WriteFile(strings.ToLower(name)+".go", buf.Bytes(), 0666)
-	}
-}
-func renderModel(data interface{}) {
-	if out == "std" {
-		genTmpls.ExecuteTemplate(os.Stdout, "model", data)
-	} else {
-		buf := &bytes.Buffer{}
-		genTmpls.ExecuteTemplate(buf, "model", data)
-		ioutil.WriteFile(strings.ToLower(name)+".go", buf.Bytes(), 0666)
-	}
+	fileName := strings.ToLower(name) + ".go"
+	os.MkdirAll("gens/model/", 0666)
+	os.MkdirAll("gens/control/", 0666)
+	// 渲染model
+	buf := &bytes.Buffer{}
+	genTmpls.ExecuteTemplate(buf, "model", mod)
+	ioutil.WriteFile("gens/model/"+fileName, buf.Bytes(), 0666)
+	// 渲染 control
+	buf.Reset()
+	genTmpls.ExecuteTemplate(buf, "control", mod)
+	ioutil.WriteFile("gens/control/"+fileName, buf.Bytes(), 0666)
 }
