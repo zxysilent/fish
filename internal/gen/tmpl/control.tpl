@@ -1,3 +1,4 @@
+package sysctl
 // {{.Name}}Get doc
 // @Tags {{.Path}}
 // @Summary 通过id获取单条{{.Notes}}信息

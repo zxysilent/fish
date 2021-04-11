@@ -1,3 +1,5 @@
+package model
+
 // {{.Name}}Get 单条{{.Notes}}信息
 func {{.Name}}Get(id int) (*{{.Name}}, bool) {
 	mod := &{{.Name}}{}
