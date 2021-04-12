@@ -22,6 +22,9 @@ var controlTmpl string
 //go:embed tmpl/router.tpl
 var routerTmpl string
 
+//go:embed tmpl/vue_api.tpl
+var vueApiTmpl string
+
 var CmdGen = &cmds.Command{
 	UsageLine: "gen [-t=m/c] [-n=name] [-r=notes] [-o=std/file]",
 	Short:     "generate code",
@@ -42,6 +45,7 @@ func init() {
 	genTmpls.New("model").Parse(modelTmpl)
 	genTmpls.New("router").Parse(routerTmpl)
 	genTmpls.New("control").Parse(controlTmpl)
+	genTmpls.New("vue_api").Parse(vueApiTmpl)
 	cmds.Regcmd(CmdGen)
 }
 func runGen(cmd *cmds.Command, args []string) {
@@ -50,23 +54,27 @@ func runGen(cmd *cmds.Command, args []string) {
 		"Notes": notes,
 		"Path":  strings.ToLower(name),
 	}
-	fileName := strings.ToLower(name) + ".go"
+	lName := strings.ToLower(name)
 	os.MkdirAll("gens/model/", 0666)
 	os.MkdirAll("gens/router/", 0666)
 	os.MkdirAll("gens/control/", 0666)
+	os.MkdirAll("gens/vue/api/", 0666)
 	// 渲染model
 	buf := &bytes.Buffer{}
 	genTmpls.ExecuteTemplate(buf, "model", mod)
-	ioutil.WriteFile("gens/model/"+fileName, buf.Bytes(), 0666)
+	ioutil.WriteFile("gens/model/"+lName+".go", buf.Bytes(), 0666)
 
 	// 渲染 router
 	buf.Reset()
 	genTmpls.ExecuteTemplate(buf, "router", mod)
-	ioutil.WriteFile("gens/router/"+fileName, buf.Bytes(), 0666)
+	ioutil.WriteFile("gens/router/"+lName+".go", buf.Bytes(), 0666)
 
 	// 渲染 control
 	buf.Reset()
 	genTmpls.ExecuteTemplate(buf, "control", mod)
-	ioutil.WriteFile("gens/control/"+fileName, buf.Bytes(), 0666)
-
+	ioutil.WriteFile("gens/control/"+lName+".go", buf.Bytes(), 0666)
+	// 渲染 control
+	buf.Reset()
+	genTmpls.ExecuteTemplate(buf, "vue_api", mod)
+	ioutil.WriteFile("gens/vue/api/"+lName+".js", buf.Bytes(), 0666)
 }
