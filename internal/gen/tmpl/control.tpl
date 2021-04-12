@@ -49,7 +49,7 @@ func {{.Name}}Page(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(utils.ErrIpt("输入有误", err.Error()))
 	}
-	if ipt.Ps > 20 || ipt.Ps < 5 {
+	if ipt.Ps > 30 || ipt.Ps < 1 {
 		return ctx.JSON(utils.ErrIpt("分页大小输入错误", ipt.Ps))
 	}
 	count := model.{{.Name}}Count()
