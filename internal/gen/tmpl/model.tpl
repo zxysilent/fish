@@ -22,7 +22,7 @@ func {{.Name}}Page(pi int, ps int, cols ...string) ([]{{.Name}}, error) {
 	if len(cols) > 0 {
 		sess.Cols(cols...)
 	}
-	err := sess.Desc("Utime").Limit(ps, (pi-1)*ps).Find(&mods)
+	err := sess.Desc("Ctime").Limit(ps, (pi-1)*ps).Find(&mods)
 	return mods, err
 }
 
