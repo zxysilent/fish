@@ -1,5 +1,5 @@
 import fetch from "./fetch";
-// 通过id获取单条{{.Notes}}信息
+// 通过id获取单条{{.Notes}}
 export const api{{.Name}}Get = (data) => {
     return fetch.request({
 		url: "/api/{{.Path}}/get",
@@ -7,7 +7,7 @@ export const api{{.Name}}Get = (data) => {
 		params: data,
 	});
 };
-// 获取所有{{.Notes}}信息
+// 获取所有{{.Notes}}
 export const api{{.Name}}All = (data) => {
     return fetch.request({
 		url: "/api/{{.Path}}/all",
@@ -15,7 +15,7 @@ export const api{{.Name}}All = (data) => {
 		params: data,
 	});
 };
-// 获取{{.Notes}}分页信息
+// 获取{{.Notes}}分页
 export const adm{{.Name}}Page = (data) => {
     return fetch.request({
 		url: "/api/{{.Path}}/page",
@@ -23,7 +23,7 @@ export const adm{{.Name}}Page = (data) => {
 		params: data,
 	});
 };
-// 添加{{.Notes}}信息
+// 添加{{.Notes}}
 export const adm{{.Name}}Add = (data) => {
     return fetch.request({
 		url: "/adm/{{.Path}}/add",
@@ -31,7 +31,7 @@ export const adm{{.Name}}Add = (data) => {
 		data: data,
 	});
 };
-// 修改{{.Notes}}信息
+// 修改{{.Notes}}
 export const adm{{.Name}}Edit = (data) => {
 	return fetch.request({
 		url: "/adm/{{.Path}}/edit",
@@ -39,7 +39,7 @@ export const adm{{.Name}}Edit = (data) => {
 		data: data,
 	});
 };
-// 通过id删除单条{{.Notes}}信息
+// 通过id删除单条{{.Notes}}
 export const adm{{.Name}}Drop = (data) => {
 	return fetch.request({
 		url: "/adm/{{.Path}}/drop",

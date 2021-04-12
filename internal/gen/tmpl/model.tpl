@@ -1,20 +1,20 @@
 package model
 
-// {{.Name}}Get 单条{{.Notes}}信息
+// {{.Name}}Get 单条{{.Notes}}
 func {{.Name}}Get(id int) (*{{.Name}}, bool) {
 	mod := &{{.Name}}{}
 	has, _ := Db.ID(id).Get(mod)
 	return mod, has
 }
 
-// {{.Name}}All 所有{{.Notes}}信息
+// {{.Name}}All 所有{{.Notes}}
 func {{.Name}}All() ([]{{.Name}}, error) {
 	mods := make([]{{.Name}}, 0, 8)
 	err := Db.Find(&mods)
 	return mods, err
 }
 
-// {{.Name}}Page {{.Notes}}分页信息
+// {{.Name}}Page {{.Notes}}分页
 func {{.Name}}Page(pi int, ps int, cols ...string) ([]{{.Name}}, error) {
 	mods := make([]{{.Name}}, 0, ps)
 	sess := Db.NewSession()
@@ -26,7 +26,7 @@ func {{.Name}}Page(pi int, ps int, cols ...string) ([]{{.Name}}, error) {
 	return mods, err
 }
 
-// {{.Name}}Count {{.Notes}}分页信息总数
+// {{.Name}}Count {{.Notes}}分页总数
 func {{.Name}}Count() int {
 	mod := &{{.Name}}{}
 	sess := Db.NewSession()
@@ -35,7 +35,7 @@ func {{.Name}}Count() int {
 	return int(count)
 }
 
-// {{.Name}}Add 添加{{.Notes}}信息
+// {{.Name}}Add 添加{{.Notes}}
 func {{.Name}}Add(mod *{{.Name}}) error {
 	sess := Db.NewSession()
 	defer sess.Close()
@@ -48,7 +48,7 @@ func {{.Name}}Add(mod *{{.Name}}) error {
 	return nil
 }
 
-// {{.Name}}Edit 编辑{{.Notes}}信息
+// {{.Name}}Edit 编辑{{.Notes}}
 func {{.Name}}Edit(mod *{{.Name}}, cols ...string) error {
 	sess := Db.NewSession()
 	defer sess.Close()
@@ -61,7 +61,7 @@ func {{.Name}}Edit(mod *{{.Name}}, cols ...string) error {
 	return nil
 }
 
-// {{.Name}}Ids 通过id集合返回{{.Notes}}信息
+// {{.Name}}Ids 通过id集合返回{{.Notes}}
 func {{.Name}}Ids(ids []int) map[int]*{{.Name}} {
 	mods := make([]{{.Name}}, 0, len(ids))
 	Db.In("id", ids).Find(&mods)
@@ -72,7 +72,7 @@ func {{.Name}}Ids(ids []int) map[int]*{{.Name}} {
 	return mapSet
 }
 
-// {{.Name}}Drop 删除单条{{.Notes}}信息
+// {{.Name}}Drop 删除单条{{.Notes}}
 func {{.Name}}Drop(id int) error {
 	sess := Db.NewSession()
 	defer sess.Close()
