@@ -16,7 +16,7 @@ export const api{{.Name}}All = (data) => {
 	});
 };
 // 获取{{.Notes}}分页
-export const adm{{.Name}}Page = (data) => {
+export const api{{.Name}}Page = (data) => {
     return fetch.request({
 		url: "/api/{{.Path}}/page",
 		method: "get",
