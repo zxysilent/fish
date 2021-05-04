@@ -2,7 +2,7 @@
     {
 		path: "/{{.Path}}",
 		name: "{{.Path}}",
-		meta: { title: "文章管理" },
+		meta: { title: "{{.Notes}}管理" },
 		component: Layout,
 		children: [
 			{
