@@ -70,6 +70,7 @@ func {{.Name}}Page(ctx echo.Context) error {
 // @Tags {{.Path}}
 // @Summary 添加{{.Notes}}
 // @Param token query string true "token"
+// @Param body body model.{{.Name}} true "请求数据"
 // @Success 200 {object} model.Reply{data=string} "成功数据"
 // @Router /adm/{{.Path}}/add [post]
 func {{.Name}}Add(ctx echo.Context) error {
@@ -90,6 +91,7 @@ func {{.Name}}Add(ctx echo.Context) error {
 // @Tags {{.Path}}
 // @Summary 修改{{.Notes}}
 // @Param token query string true "token"
+// @Param body body model.{{.Name}} true "请求数据"
 // @Success 200 {object} model.Reply{data=string} "成功数据"
 // @Router /adm/{{.Path}}/edit [post]
 func {{.Name}}Edit(ctx echo.Context) error {
