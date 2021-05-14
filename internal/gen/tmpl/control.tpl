@@ -1,9 +1,9 @@
-package sysctl
+package appctl
 // {{.Name}}Get doc
 // @Tags {{.Path}}
 // @Summary 通过id获取单条{{.Notes}}
 // @Param id query int true "id"
-// @Success 200 {object} model.Reply{data=model.{{.Name}}} "成功数据"
+// @Success 200 {object} model.Reply{data=model.{{.Name}}} "返回数据"
 // @Router /api/{{.Path}}/get [get]
 func {{.Name}}Get(ctx echo.Context) error {
 	ipt := &model.IptId{}
@@ -21,7 +21,7 @@ func {{.Name}}Get(ctx echo.Context) error {
 // {{.Name}}All doc
 // @Tags {{.Path}}
 // @Summary 获取所有{{.Notes}}
-// @Success 200 {object} model.Reply{data=[]model.{{.Name}}} "成功数据"
+// @Success 200 {object} model.Reply{data=[]model.{{.Name}}} "返回数据"
 // @Router /api/{{.Path}}/all [get]
 func {{.Name}}All(ctx echo.Context) error {
 	mods, err := model.{{.Name}}All()
@@ -37,7 +37,7 @@ func {{.Name}}All(ctx echo.Context) error {
 // @Param cid path int true "分类id" default(1)
 // @Param pi query int true "分页数" default(1)
 // @Param ps query int true "每页条数[5,30]" default(5)
-// @Success 200 {object} model.Reply{data=[]model.{{.Name}}} "成功数据"
+// @Success 200 {object} model.Reply{data=[]model.{{.Name}}} "返回数据"
 // @Router /api/{{.Path}}/page [get]
 func {{.Name}}Page(ctx echo.Context) error {
 	// cid, err := strconv.Atoi(ctx.Param("cid"))
@@ -71,7 +71,7 @@ func {{.Name}}Page(ctx echo.Context) error {
 // @Summary 添加{{.Notes}}
 // @Param token query string true "token"
 // @Param body body model.{{.Name}} true "请求数据"
-// @Success 200 {object} model.Reply{data=string} "成功数据"
+// @Success 200 {object} model.Reply{data=string} "返回数据"
 // @Router /adm/{{.Path}}/add [post]
 func {{.Name}}Add(ctx echo.Context) error {
 	ipt := &model.{{.Name}}{}
@@ -92,7 +92,7 @@ func {{.Name}}Add(ctx echo.Context) error {
 // @Summary 修改{{.Notes}}
 // @Param token query string true "token"
 // @Param body body model.{{.Name}} true "请求数据"
-// @Success 200 {object} model.Reply{data=string} "成功数据"
+// @Success 200 {object} model.Reply{data=string} "返回数据"
 // @Router /adm/{{.Path}}/edit [post]
 func {{.Name}}Edit(ctx echo.Context) error {
 	ipt := &model.{{.Name}}{}
@@ -113,7 +113,7 @@ func {{.Name}}Edit(ctx echo.Context) error {
 // @Summary 通过id删除单条{{.Notes}}
 // @Param id query int true "id"
 // @Param token query string true "token"
-// @Success 200 {object} model.Reply{data=string} "成功数据"
+// @Success 200 {object} model.Reply{data=string} "返回数据"
 // @Router /adm/{{.Path}}/drop [post]
 func {{.Name}}Drop(ctx echo.Context) error {
 	ipt := &model.IptId{}

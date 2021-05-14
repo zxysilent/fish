@@ -1,5 +1,13 @@
 package model
-
+// {{.Name}} {{.Notes}}
+type {{.Name}} struct {
+	Id     int       `xorm:"INT(11) PK AUTOINCR comment('主键')"`
+	String string    `xorm:"VARCHAR(255) comment('注释')"`
+	Float  float64   `xorm:"DOUBLE comment('注释')"`
+	Int    int       `xorm:"INT(11) DEFAULT 0 comment('注释')"`
+	{{.Name}}   *{{.Name}} `xorm:"-" swaggerignore:"true"` //附加
+	Ctime  time.Time `xorm:"DATETIME comment('时间')" swaggerignore:"true" json:"ctime"`
+}
 // {{.Name}}Get 单条{{.Notes}}
 func {{.Name}}Get(id int) (*{{.Name}}, bool) {
 	mod := &{{.Name}}{}
