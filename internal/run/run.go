@@ -66,7 +66,7 @@ func runRun(cmd *cmds.Command, args []string) {
 	if buildname == "" {
 		buildname = path.Base(apppath)
 	}
-	Flog.Infof("Using '%s' as app name", buildname)
+	Flog.Infof("Using '%s' as name", buildname)
 	if runtime.GOOS == "windows" {
 		buildname += ".exe"
 	}
@@ -88,6 +88,8 @@ func newWatcher(dirs []string) {
 	if err != nil {
 		Flog.Fatalf("Failed to create watcher: %s", err)
 	}
+	Flog.Info("Loading watcher...")
+	now := time.Now()
 	go func() {
 		build := true
 		for {
@@ -103,7 +105,7 @@ func newWatcher(dirs []string) {
 					continue
 				}
 				fmu := fileModUnix(evts.Name)
-				if mt := modTimes[evts.Name]; fmu == mt {
+				if mt := modTimes[evts.Name]; fmu-mt < 2 {
 					build = false
 				}
 				modTimes[evts.Name] = fmu
@@ -118,7 +120,6 @@ func newWatcher(dirs []string) {
 			}
 		}
 	}()
-	Flog.Info("Loading watcher...")
 	for _, dir := range dirs {
 		Flog.Infof("Watching: %s", dir)
 		err = watcher.Add(dir)
@@ -126,11 +127,13 @@ func newWatcher(dirs []string) {
 			Flog.Fatalf("Failed to watch directory: %s", err)
 		}
 	}
+	Flog.Info("Loaded watcher successfully " + time.Now().Sub(now).String())
 }
 
 // genDoc 生成 swagger
 func genDoc() {
 	Flog.Info("Generating swagger...")
+	now := time.Now()
 	args := []string{"init"}
 	build := exec.Command("swag", args...)
 	stderr := bytes.Buffer{}
@@ -139,7 +142,7 @@ func genDoc() {
 		Flog.Errorf("Failed to generate: %s", stderr.String())
 		return
 	}
-	Flog.Succ("Generated successfully")
+	Flog.Succ("Generated successfully " + time.Now().Sub(now).String())
 }
 
 // buildApp 编译APP
@@ -150,6 +153,8 @@ func buildApp() {
 		genDoc()
 	}
 	killApp()
+	Flog.Infof("Building '%s'", runname)
+	now := time.Now()
 	args := []string{"build"}
 	args = append(args, "-o", buildname)
 	build := exec.Command("go", args...)
@@ -160,13 +165,14 @@ func buildApp() {
 		Flog.Errorf("Failed to build: %s", stderr.String())
 		return
 	}
-	Flog.Succ("Built successfully")
+	Flog.Succ("Built successfully " + time.Now().Sub(now).String())
 	runApp()
 }
 
 // runApp 启动命令
 func runApp() {
 	Flog.Infof("Starting '%s'", runname)
+	now := time.Now()
 	cmd = exec.Command(runname)
 	// Stdin指定进程的标准输入，如为nil，进程会从空设备读取（os.DevNull）
 	// Stdout和Stderr指定进程的标准输出和标准错误输出。
@@ -184,11 +190,12 @@ func runApp() {
 		return
 	}
 	go cmd.Wait()
-	Flog.Succf("'%s' is running", runname)
+	Flog.Succf("Started '%s' successfully "+time.Now().Sub(now).String(), runname)
 }
 
 // killApp 结束
 func killApp() {
+	now := time.Now()
 	defer func() {
 		if msg := recover(); msg != nil {
 			Flog.Errorf("Kill recover: %s", msg)
@@ -214,7 +221,7 @@ func killApp() {
 		}()
 		select {
 		case <-wait:
-			Flog.Info("Kill running process")
+			Flog.Info("Kill running process " + time.Now().Sub(now).String())
 			return
 		case <-time.After(time.Second * 5):
 			Flog.Warn("Timeout. Force kill process")
