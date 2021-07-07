@@ -18,7 +18,7 @@ import (
 )
 
 var CmdRun = &cmds.Command{
-	UsageLine: "run [-name=name] [-all=false]",
+	UsageLine: "run [-name=name] [-all=false] [-doc=false]",
 	Short:     "watch your .go files and restart your go application",
 	Long: `
 Run command will monitor any changes to the application file and recompile/restart it.`,
@@ -29,6 +29,7 @@ var (
 	buildname  string                   // 编译名称😎
 	runname    string                   // 运行名称😝
 	watchall   bool                     // 监听所有包括静态文件✔
+	gendoc     bool                     // 是否生成文档✔
 	always     chan struct{}            // 保持一直运行😋
 	cmd        *exec.Cmd                // 命令
 	locker     sync.Mutex               // 锁🔒
@@ -49,6 +50,7 @@ var (
 func init() {
 	CmdRun.Flag.StringVar(&buildname, "name", "", "Set the app name.")
 	CmdRun.Flag.BoolVar(&watchall, "all", false, "Enable watch all files. eg: .html")
+	CmdRun.Flag.BoolVar(&gendoc, "doc", false, "Enable generate swagger")
 	always = make(chan struct{})
 	cmds.Regcmd(CmdRun)
 }
@@ -126,10 +128,27 @@ func newWatcher(dirs []string) {
 	}
 }
 
+// genDoc 生成 swagger
+func genDoc() {
+	Flog.Info("Generating swagger...")
+	args := []string{"init"}
+	build := exec.Command("swag", args...)
+	stderr := bytes.Buffer{}
+	build.Stderr = &stderr
+	if err := build.Run(); err != nil {
+		Flog.Errorf("Failed to generate: %s", stderr.String())
+		return
+	}
+	Flog.Succ("Generated successfully")
+}
+
 // buildApp 编译APP
 func buildApp() {
 	locker.Lock()
 	defer locker.Unlock()
+	if gendoc {
+		genDoc()
+	}
 	killApp()
 	args := []string{"build"}
 	args = append(args, "-o", buildname)
