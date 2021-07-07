@@ -1,3 +1,3 @@
 #!/bin/bash
 
-go build -tags=gen
+go build -tags=gen -ldflags "-s"
