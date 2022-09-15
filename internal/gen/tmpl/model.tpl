@@ -6,26 +6,27 @@ type {{.Name}} struct {
 	Float  float64   `xorm:"DOUBLE comment('注释')"`
 	Int    int       `xorm:"INT(11) DEFAULT 0 comment('注释')"`
 	{{.Name}}   *{{.Name}} `xorm:"-" swaggerignore:"true"` //附加
-	Ctime  time.Time `xorm:"DATETIME comment('时间')" swaggerignore:"true" json:"ctime"`
+	Updated int64    `xorm:"BIGINT" json:"updated"`              //修改时间
+	Created int64    `xorm:"BIGINT" json:"created"`              //创建时间
 }
 // {{.Name}}Get 单条{{.Notes}}
 func {{.Name}}Get(id int) (*{{.Name}}, bool) {
 	mod := &{{.Name}}{}
-	has, _ := Db.ID(id).Get(mod)
+	has, _ := db.ID(id).Get(mod)
 	return mod, has
 }
 
 // {{.Name}}All 所有{{.Notes}}
 func {{.Name}}All() ([]{{.Name}}, error) {
 	mods := make([]{{.Name}}, 0, 8)
-	err := Db.Find(&mods)
+	err := db.Find(&mods)
 	return mods, err
 }
 
 // {{.Name}}Page {{.Notes}}分页
 func {{.Name}}Page(pi int, ps int, cols ...string) ([]{{.Name}}, error) {
 	mods := make([]{{.Name}}, 0, ps)
-	sess := Db.NewSession()
+	sess := db.NewSession()
 	defer sess.Close()
 	if len(cols) > 0 {
 		sess.Cols(cols...)
@@ -37,7 +38,7 @@ func {{.Name}}Page(pi int, ps int, cols ...string) ([]{{.Name}}, error) {
 // {{.Name}}Count {{.Notes}}分页总数
 func {{.Name}}Count() int {
 	mod := &{{.Name}}{}
-	sess := Db.NewSession()
+	sess := db.NewSession()
 	defer sess.Close()
 	count, _ := sess.Count(mod)
 	return int(count)
@@ -45,7 +46,7 @@ func {{.Name}}Count() int {
 
 // {{.Name}}Add 添加{{.Notes}}
 func {{.Name}}Add(mod *{{.Name}}) error {
-	sess := Db.NewSession()
+	sess := db.NewSession()
 	defer sess.Close()
 	sess.Begin()
 	if _, err := sess.InsertOne(mod); err != nil {
@@ -58,7 +59,7 @@ func {{.Name}}Add(mod *{{.Name}}) error {
 
 // {{.Name}}Edit 编辑{{.Notes}}
 func {{.Name}}Edit(mod *{{.Name}}, cols ...string) error {
-	sess := Db.NewSession()
+	sess := db.NewSession()
 	defer sess.Close()
 	sess.Begin()
 	if _, err := sess.ID(mod.Id).Cols(cols...).Update(mod); err != nil {
@@ -72,7 +73,7 @@ func {{.Name}}Edit(mod *{{.Name}}, cols ...string) error {
 // {{.Name}}Ids 通过id集合返回{{.Notes}}
 func {{.Name}}Ids(ids []int) map[int]*{{.Name}} {
 	mods := make([]{{.Name}}, 0, len(ids))
-	Db.In("id", ids).Find(&mods)
+	db.In("id", ids).Find(&mods)
 	mapSet := make(map[int]*{{.Name}}, len(mods))
 	for idx := range mods {
 		mapSet[mods[idx].Id] = &mods[idx]
@@ -82,7 +83,7 @@ func {{.Name}}Ids(ids []int) map[int]*{{.Name}} {
 
 // {{.Name}}Drop 删除单条{{.Notes}}
 func {{.Name}}Drop(id int) error {
-	sess := Db.NewSession()
+	sess := db.NewSession()
 	defer sess.Close()
 	sess.Begin()
 	if _, err := sess.ID(id).Delete(&{{.Name}}{}); err != nil {

@@ -24,25 +24,25 @@ export const api{{.Name}}Page = (data) => {
 	});
 };
 // 添加{{.Notes}}
-export const adm{{.Name}}Add = (data) => {
+export const api{{.Name}}Add = (data) => {
     return fetch.request({
-		url: "/adm/{{.Path}}/add",
+		url: "/api/{{.Path}}/add",
 		method: "post",
 		data: data,
 	});
 };
 // 修改{{.Notes}}
-export const adm{{.Name}}Edit = (data) => {
+export const api{{.Name}}Edit = (data) => {
 	return fetch.request({
-		url: "/adm/{{.Path}}/edit",
+		url: "/api/{{.Path}}/edit",
 		method: "post",
 		data: data,
 	});
 };
 // 通过id删除单条{{.Notes}}
-export const adm{{.Name}}Drop = (data) => {
+export const api{{.Name}}Drop = (data) => {
 	return fetch.request({
-		url: "/adm/{{.Path}}/drop",
+		url: "/api/{{.Path}}/drop",
 		method: "post",
 		data: data,
 	});

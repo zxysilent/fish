@@ -72,7 +72,7 @@ func {{.Name}}Page(ctx echo.Context) error {
 // @Param token query string true "token"
 // @Param body body model.{{.Name}} true "请求数据"
 // @Success 200 {object} model.Reply{data=string} "返回数据"
-// @Router /adm/{{.Path}}/add [post]
+// @Router /api/{{.Path}}/add [post]
 func {{.Name}}Add(ctx echo.Context) error {
 	ipt := &model.{{.Name}}{}
 	err := ctx.Bind(ipt)
@@ -93,7 +93,7 @@ func {{.Name}}Add(ctx echo.Context) error {
 // @Param token query string true "token"
 // @Param body body model.{{.Name}} true "请求数据"
 // @Success 200 {object} model.Reply{data=string} "返回数据"
-// @Router /adm/{{.Path}}/edit [post]
+// @Router /api/{{.Path}}/edit [post]
 func {{.Name}}Edit(ctx echo.Context) error {
 	ipt := &model.{{.Name}}{}
 	err := ctx.Bind(ipt)
@@ -114,7 +114,7 @@ func {{.Name}}Edit(ctx echo.Context) error {
 // @Param id query int true "id"
 // @Param token query string true "token"
 // @Success 200 {object} model.Reply{data=string} "返回数据"
-// @Router /adm/{{.Path}}/drop [post]
+// @Router /api/{{.Path}}/drop [post]
 func {{.Name}}Drop(ctx echo.Context) error {
 	ipt := &model.IptId{}
 	err := ctx.Bind(ipt)
