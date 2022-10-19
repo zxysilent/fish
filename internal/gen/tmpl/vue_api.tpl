@@ -1,22 +1,22 @@
-import fetch from "./fetch";
+import fetch, { Reply } from '@/utils/fetch';
 // 通过id获取单条{{.Notes}}
-export const api{{.Name}}Get = (data) => {
+export const api{{.Name}}Get = (params): Promise<Reply> => {
     return fetch.request({
 		url: "/api/{{.Path}}/get",
 		method: "get",
-		params: data,
+		params: params,
 	});
 };
 // 获取所有{{.Notes}}
-export const api{{.Name}}All = (data) => {
+export const api{{.Name}}All = (params): Promise<Reply> => {
     return fetch.request({
 		url: "/api/{{.Path}}/all",
 		method: "get",
-		params: data,
+		params: params,
 	});
 };
 // 获取{{.Notes}}分页
-export const api{{.Name}}Page = (data) => {
+export const api{{.Name}}Page = (data) : Promise<Reply> => {
     return fetch.request({
 		url: "/api/{{.Path}}/page",
 		method: "get",
@@ -24,7 +24,7 @@ export const api{{.Name}}Page = (data) => {
 	});
 };
 // 添加{{.Notes}}
-export const api{{.Name}}Add = (data) => {
+export const api{{.Name}}Add = (data) : Promise<Reply> => {
     return fetch.request({
 		url: "/api/{{.Path}}/add",
 		method: "post",
@@ -32,7 +32,7 @@ export const api{{.Name}}Add = (data) => {
 	});
 };
 // 修改{{.Notes}}
-export const api{{.Name}}Edit = (data) => {
+export const api{{.Name}}Edit = (data): Promise<Reply> =>{
 	return fetch.request({
 		url: "/api/{{.Path}}/edit",
 		method: "post",
@@ -40,7 +40,7 @@ export const api{{.Name}}Edit = (data) => {
 	});
 };
 // 通过id删除单条{{.Notes}}
-export const api{{.Name}}Drop = (data) => {
+export const api{{.Name}}Drop = (data) : Promise<Reply> => {
 	return fetch.request({
 		url: "/api/{{.Path}}/drop",
 		method: "post",
