@@ -8,26 +8,26 @@
             {
                 path: "/{{.Path}}/index",
                 name: "{{.Path}}-index",
-                meta: { title: "{{.Notes}}管理", auth: "grant_view" },
-                component: () => import("@/views/user/{{.Path}}/index.vue"),
+                meta: { title: "{{.Notes}}管理", auth: "{{.Path}}_view" },
+                component: () => import("@/views/{{.Path}}/index.vue"),
             },
             {
                 path: "/{{.Path}}/add",
                 name: "{{.Path}}-add",
                 meta: { title: "添加{{.Notes}}", auth: "{{.Path}}_add", hidden: true, active: "{{.Path}}-index" },
-                component: () => import("@/views/user/{{.Path}}/add.vue"),
+                component: () => import("@/views/{{.Path}}/add.vue"),
             },
             {
                 path: "/{{.Path}}/edit/:id(\\d+)",
                 name: "{{.Path}}-edit",
                 meta: { title: "修改{{.Notes}}", auth: "{{.Path}}_edit", hidden: true, active: "{{.Path}}-index" },
-                component: () => import("@/views/user/{{.Path}}/edit.vue"),
+                component: () => import("@/views/{{.Path}}/edit.vue"),
             },
             {
                 path: "/{{.Path}}/detail/:id(\\d+)",
                 name: "{{.Path}}-detail",
                 meta: { title: "查看{{.Notes}}", auth: "{{.Path}}_view", hidden: true, active: "{{.Path}}-index" },
-                component: () => import("@/views/user/{{.Path}}/detail.vue"),
+                component: () => import("@/views/{{.Path}}/detail.vue"),
             },
 		]
 	},

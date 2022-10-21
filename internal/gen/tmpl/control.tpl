@@ -1,4 +1,4 @@
-package appctl
+package applet
 // {{.Name}}Get doc
 // @Tags {{.Path}}
 // @Summary 通过id获取单条{{.Notes}}
@@ -49,8 +49,8 @@ func {{.Name}}Page(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(utils.ErrIpt("输入有误", err.Error()))
 	}
-	if ipt.Ps > 30 || ipt.Ps < 1 {
-		return ctx.JSON(utils.ErrIpt("分页大小输入错误", ipt.Ps))
+	if err = ipt.Stat(); err != nil {
+		return ctx.JSON(utils.ErrIpt("输入有误", err.Error()))
 	}
 	count := model.{{.Name}}Count()
 	if count < 1 {
@@ -79,7 +79,8 @@ func {{.Name}}Add(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(utils.ErrIpt("输入有误", err.Error()))
 	}
-	ipt.Ctime = time.Now()
+	ipt.Updated = time.Now().UnixMilli()
+	ipt.Created = ipt.Updated
 	err = model.{{.Name}}Add(ipt)
 	if err != nil {
 		return ctx.JSON(utils.Fail("添加失败", err.Error()))
@@ -100,7 +101,7 @@ func {{.Name}}Edit(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(utils.ErrIpt("输入有误", err.Error()))
 	}
-	ipt.Ctime = time.Now()
+	ipt.Updated = time.Now().UnixMilli()
 	err = model.{{.Name}}Edit(ipt)
 	if err != nil {
 		return ctx.JSON(utils.Fail("修改失败", err.Error()))
