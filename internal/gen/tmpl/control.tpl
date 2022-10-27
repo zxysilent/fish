@@ -34,9 +34,7 @@ func {{.Name}}All(ctx echo.Context) error {
 // {{.Name}}Page doc
 // @Tags {{.Path}}
 // @Summary 获取{{.Notes}}分页
-// @Param cid path int true "分类id" default(1)
-// @Param pi query int true "分页数" default(1)
-// @Param ps query int true "每页条数[5,30]" default(5)
+// @Param query query model.Page true "请求数据"
 // @Success 200 {object} model.Reply{data=[]model.{{.Name}}} "返回数据"
 // @Router /api/{{.Path}}/page [get]
 func {{.Name}}Page(ctx echo.Context) error {
@@ -112,8 +110,8 @@ func {{.Name}}Edit(ctx echo.Context) error {
 // {{.Name}}Drop doc
 // @Tags {{.Path}}
 // @Summary 通过id删除单条{{.Notes}}
-// @Param id query int true "id"
 // @Param token query string true "token"
+// @Param query query model.IptId true "请求数据"
 // @Success 200 {object} model.Reply{data=string} "返回数据"
 // @Router /api/{{.Path}}/drop [post]
 func {{.Name}}Drop(ctx echo.Context) error {
