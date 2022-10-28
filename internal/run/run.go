@@ -89,13 +89,12 @@ func newWatcher(dirs []string) {
 		Flog.Fatalf("Failed to create watcher: %s", err)
 	}
 	Flog.Info("Loading watcher...")
-	now := time.Now()
+
 	go func() {
-		build := true
+		last := time.Now().Unix()
 		for {
 			select {
 			case evts := <-watcher.Events:
-				build = true
 				// 忽略的文件
 				if isIgnoreFile(evts.Name) {
 					continue
@@ -106,20 +105,24 @@ func newWatcher(dirs []string) {
 				}
 				fmu := fileModUnix(evts.Name)
 				if mt := modTimes[evts.Name]; fmu-mt < 2 {
-					build = false
+					// build = false
+					continue
 				}
 				modTimes[evts.Name] = fmu
-				if build {
-					go func() {
-						time.Sleep(time.Millisecond * 800)
-						buildApp()
-					}()
+				now := time.Now().Unix()
+				if now-last < 2 {
+					continue
 				}
+				last = now
+				go func() {
+					buildApp()
+				}()
 			case errs := <-watcher.Errors:
 				Flog.Errorf("Watcher error: %s", errs.Error())
 			}
 		}
 	}()
+	now := time.Now()
 	for _, dir := range dirs {
 		Flog.Infof("Watching: %s", dir)
 		err = watcher.Add(dir)
