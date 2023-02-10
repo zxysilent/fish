@@ -18,7 +18,7 @@ import (
 )
 
 var CmdRun = &cmds.Command{
-	UsageLine: "run [-name=name] [-all=false] [-doc=false]",
+	UsageLine: "run [-name=name] [-all=false] [-doc=false] [-tags=tags]",
 	Short:     "watch your .go files and restart your go application",
 	Long: `
 Run command will monitor any changes to the application file and recompile/restart it.`,
@@ -26,16 +26,18 @@ Run command will monitor any changes to the application file and recompile/resta
 }
 
 var (
-	buildname  string                   // 编译名称😎
-	runname    string                   // 运行名称😝
-	watchall   bool                     // 监听所有包括静态文件✔
-	gendoc     bool                     // 是否生成文档✔
-	always     chan struct{}            // 保持一直运行😋
-	cmd        *exec.Cmd                // 命令
-	locker     sync.Mutex               // 锁🔒
-	modTimes   = make(map[string]int64) // 修改时间⏰
-	aimExts    = []string{".go"}        // 监听目标后缀
-	staticExts = []string{".html"}      // 静态资源后缀➰
+	buildName    string                   // 编译名称😎
+	runname      string                   // 运行名称😝
+	buildTags    string                   // 编译
+	buildLdFlags string                   // 编译
+	watchall     bool                     // 监听所有包括静态文件✔
+	gendoc       bool                     // 是否生成文档✔
+	always       chan struct{}            // 保持一直运行😋
+	cmd          *exec.Cmd                // 命令
+	locker       sync.Mutex               // 锁🔒
+	modTimes     = make(map[string]int64) // 修改时间⏰
+	aimExts      = []string{".go"}        // 监听目标后缀
+	staticExts   = []string{".html"}      // 静态资源后缀➰
 	// 临时文件🚫
 	ignoreRegexps = []*regexp.Regexp{
 		regexp.MustCompile(`(\w+).go~$`),
@@ -48,9 +50,11 @@ var (
 )
 
 func init() {
-	CmdRun.Flag.StringVar(&buildname, "name", "", "Set the app name.")
+	CmdRun.Flag.StringVar(&buildName, "name", "", "Set the app name.")
 	CmdRun.Flag.BoolVar(&watchall, "all", false, "Enable watch all files. eg: .html")
 	CmdRun.Flag.BoolVar(&gendoc, "doc", false, "Enable generate swagger")
+	CmdRun.Flag.StringVar(&buildTags, "tags", "", "Set the build tags")
+	CmdRun.Flag.StringVar(&buildLdFlags, "ldflags", "", "Set the build ldflags")
 	always = make(chan struct{})
 	cmds.Regcmd(CmdRun)
 }
@@ -63,15 +67,15 @@ func runRun(cmd *cmds.Command, args []string) {
 	if watchall {
 		aimExts = append(aimExts, staticExts...)
 	}
-	if buildname == "" {
-		buildname = path.Base(apppath)
+	if buildName == "" {
+		buildName = path.Base(apppath)
 	}
-	Flog.Infof("Using '%s' as name", buildname)
+	Flog.Infof("Using '%s' as name", buildName)
 	if runtime.GOOS == "windows" {
-		buildname += ".exe"
+		buildName += ".exe"
 	}
 	// 运行名称
-	runname = "./" + buildname
+	runname = "./" + buildName
 	var dirs []string
 	// 加载监听目录
 	loadWatchDirs(apppath, &dirs)
@@ -159,8 +163,15 @@ func buildApp() {
 	Flog.Infof("Building '%s'", runname)
 	now := time.Now()
 	args := []string{"build"}
-	args = append(args, "-o", buildname)
+	args = append(args, "-o", buildName)
+	if buildTags != "" {
+		args = append(args, "-tags", buildTags)
+	}
+	if buildLdFlags != "" {
+		args = append(args, "-ldflags", buildLdFlags)
+	}
 	build := exec.Command("go", args...)
+
 	build.Env = append(os.Environ(), "GOGC=off")
 	stderr := bytes.Buffer{}
 	build.Stderr = &stderr
